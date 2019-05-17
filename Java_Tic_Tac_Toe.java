@@ -5,13 +5,14 @@ import java.util.*;
 
 public class Java_Tic_Tac_Toe
 {
-  private static String [][] gameboard = new String [3][3];
+	private static String [][] gameboard = new String [3][3];
 
   public static void main(String[] args)
   {
 		setBoard();
 		printBoard();
-    aiGame();
+		String winner = aiGame();
+		System.out.println(winner + " wins");
   }
 
   public static void setBoard()
@@ -68,7 +69,7 @@ public class Java_Tic_Tac_Toe
 				xCoord = Coord.nextInt();
 			}
 
-    	System.out.print("What Y coordinate (between 0 and 2) do you wat to move to? ");
+    	System.out.print("What Y coordinate (between 0 and 2) do you want to move to? ");
 			yCoord = Coord.nextInt();
 			while(yCoord > 2)
 			{
@@ -85,7 +86,18 @@ public class Java_Tic_Tac_Toe
 
 	public static void aiMove()
 	{
+		Random randCoord = new Random();
+		boolean confirm = false;
+		int xCoord = 0;
+		int yCoord = 0;
 
+		while(confirm == false)
+		{
+			xCoord = randCoord.nextInt(3);
+			yCoord = randCoord.nextInt(3);
+			confirm = isEmpty(xCoord, yCoord);
+		}
+		boardMove(xCoord, yCoord, "O");		
 	}
 	
   public static void boardMove(int X, int Y, String player)
@@ -93,21 +105,32 @@ public class Java_Tic_Tac_Toe
     gameboard[Y][X] = player;
   }
 
-	public static boolean aiGame()
+	public static String aiGame()
 	{
 		boolean win = false;
 		boolean moves = true;
+		String whoWon = "";
+
 		while( win == false && moves == true )
 		{
 			playerMove();
-			printBoard();
+			win = ifWon("X");
+			if(win == true)
+			{
+				printBoard();
+				whoWon = "player";
+				return whoWon;
+			}			
 			moves = canMove();
 			if( win == false && moves == true )
 			{
-
+				aiMove();
+				moves = canMove();
 			}
+			printBoard();
 		}
-		return win;
+		whoWon = "nobody";
+		return whoWon;
 	}
 
 	public static boolean canMove()
@@ -131,5 +154,19 @@ public class Java_Tic_Tac_Toe
 		}
 		return false;
 	}
+	public static boolean ifWon(String player)
+	{
+		for(int i = 0; i < gameboard.length; i++)
+    {
+			if( gameboard[i][0].equals(player) && gameboard[i][1].equals(player) && gameboard[i][2].equals(player) )
+				return true;
+		}
+		for(int j = 0; j < gameboard[0].length; j++)
+    {
+			if( gameboard[0][j].equals(player) && gameboard[1][j].equals(player) && gameboard[2][j].equals(player) )
+				return true;
+		}
 
+		return false;
+	}
 }
