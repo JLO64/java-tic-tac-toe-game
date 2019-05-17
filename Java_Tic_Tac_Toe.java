@@ -126,6 +126,13 @@ public class Java_Tic_Tac_Toe
 			if( win == false && moves == true )
 			{
 				aiMove();
+				win = ifWon("O");
+				if(win == true)
+				{
+					printBoard();
+					whoWon = "CPU";
+					return whoWon;
+				}	
 				moves = canMove();
 			}
 			printBoard();
