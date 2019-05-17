@@ -11,6 +11,8 @@ public class Java_Tic_Tac_Toe
   {
     setBoard();
     printBoard();
+		playerMove();
+		printBoard();
   }
 
   public static void setBoard()
@@ -46,4 +48,22 @@ public class Java_Tic_Tac_Toe
       System.out.print("-");
     }
   }
+
+  public static void playerMove()
+  {
+    Scanner Coord = new Scanner(System.in);
+
+    System.out.print("What X coordinate (between 0 and 2) do you want to move to? ");
+    int xCoord = Coord.nextInt();
+    System.out.print("What Y coordinate (between 0 and 2) do you want to move to? ");
+    int yCoord = Coord.nextInt();
+
+		boardMove(xCoord, yCoord);
+	}
+	
+  public static void boardMove(int X, int Y)
+  {
+    gameboard[X][Y] = "X";
+  }
+
 }
