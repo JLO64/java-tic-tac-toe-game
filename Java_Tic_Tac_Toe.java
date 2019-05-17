@@ -11,6 +11,7 @@ public class Java_Tic_Tac_Toe
   {
 		setBoard();
 		printBoard();
+		System.out.println("X is player, O is CPU");
 		String winner = aiGame();
 		System.out.println(winner + " wins");
   }
@@ -166,6 +167,10 @@ public class Java_Tic_Tac_Toe
 			if( gameboard[0][j].equals(player) && gameboard[1][j].equals(player) && gameboard[2][j].equals(player) )
 				return true;
 		}
+		if( gameboard[0][0].equals(player) && gameboard[1][1].equals(player) && gameboard[2][2].equals(player) )
+			return true;
+		if( gameboard[0][2].equals(player) && gameboard[1][1].equals(player) && gameboard[2][0].equals(player) )
+			return true;
 
 		return false;
 	}
