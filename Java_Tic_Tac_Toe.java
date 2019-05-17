@@ -9,10 +9,9 @@ public class Java_Tic_Tac_Toe
 
   public static void main(String[] args)
   {
-    setBoard();
-    printBoard();
-		playerMove();
+		setBoard();
 		printBoard();
+    aiGame();
   }
 
   public static void setBoard()
@@ -46,24 +45,91 @@ public class Java_Tic_Tac_Toe
     for(int i = 0; i < 7; i++)
     {
       System.out.print("-");
-    }
+		}
+		System.out.println();
   }
 
   public static void playerMove()
   {
-    Scanner Coord = new Scanner(System.in);
+		Scanner Coord = new Scanner(System.in);
+		boolean confirm = false;
 
-    System.out.print("What X coordinate (between 0 and 2) do you want to move to? ");
-    int xCoord = Coord.nextInt();
-    System.out.print("What Y coordinate (between 0 and 2) do you want to move to? ");
-    int yCoord = Coord.nextInt();
+		int xCoord = 0;
+		int yCoord = 0;
 
-		boardMove(xCoord, yCoord);
+		while(confirm == false)
+		{
+			System.out.print("What X coordinate (between 0 and 2) do you want to move to? ");
+			xCoord = Coord.nextInt();
+			while(xCoord > 2)
+			{
+				System.out.println("  Please enter a value between 0 and 2");
+				System.out.print("What X coordinate (between 0 and 2) do you want to move to? ");
+				xCoord = Coord.nextInt();
+			}
+
+    	System.out.print("What Y coordinate (between 0 and 2) do you wat to move to? ");
+			yCoord = Coord.nextInt();
+			while(yCoord > 2)
+			{
+				System.out.println("  Please enter a value between 0 and 2");
+				System.out.print("What Y coordinate (between 0 and 2) do you want to move to? ");
+				yCoord = Coord.nextInt();
+			}
+			confirm = isEmpty(xCoord, yCoord);
+			if(confirm == false)
+				System.out.println("  Please enter in coordinates that are not taken");
+		}
+		boardMove(xCoord, yCoord, "X");
+	}
+
+	public static void aiMove()
+	{
+
 	}
 	
-  public static void boardMove(int X, int Y)
+  public static void boardMove(int X, int Y, String player)
   {
-    gameboard[X][Y] = "X";
+    gameboard[Y][X] = player;
   }
+
+	public static boolean aiGame()
+	{
+		boolean win = false;
+		boolean moves = true;
+		while( win == false && moves == true )
+		{
+			playerMove();
+			printBoard();
+			moves = canMove();
+			if( win == false && moves == true )
+			{
+
+			}
+		}
+		return win;
+	}
+
+	public static boolean canMove()
+	{
+		for(int i = 0; i < gameboard.length; i++)
+    {
+      for(int j = 0; j < gameboard[0].length; j++)
+      {
+				if(isEmpty(i, j))
+					return true;
+      }
+		}
+		return false;
+	}
+
+	public static boolean isEmpty(int X, int Y)
+	{
+		if(gameboard[Y][X].equals(" "))
+		{
+			return true;
+		}
+		return false;
+	}
 
 }
