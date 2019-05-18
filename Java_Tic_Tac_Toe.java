@@ -1,6 +1,5 @@
 //Made by Julian Lopez
 
-import java.io.*;
 import java.util.*;
 
 public class Java_Tic_Tac_Toe
@@ -9,13 +8,8 @@ public class Java_Tic_Tac_Toe
 
   public static void main(String[] args)
   {
-		setBoard();
-		printBoard();
-		System.out.println("X is player, O is CPU");
-		String winner = aiGame();
-		System.out.println(winner + " wins");
+		opponentSelect();
   }
-
   public static void setBoard()
   {
     for(int i = 0; i < gameboard.length; i++)
@@ -25,8 +19,51 @@ public class Java_Tic_Tac_Toe
         gameboard[i][j] = " ";
       }
     }
-  }
+	}
+	public static void askContinue()
+	{
+		Scanner yninput = new Scanner(System.in);
+		boolean validInput = false;
+		while(validInput == false)
+		{
+			System.out.println("Do you want to continue?");
+			System.out.print("Please enter either \"Yes\" or \"No\": ");
+			String yesNo = yninput.nextLine();
+			if(yesNo.equals("Yes") || yesNo.equals("yes") )
+			{
+				validInput = true;
+				opponentSelect();
+			}
+			else if(yesNo.equals("No") || yesNo.equals("no") )
+			{
+				validInput = true;
+			}
+			else
+			{
+				System.out.println("  Please enter either \"Yes\" or \"No\": ");
+			}
+		}		
+	}
+	public static void opponentSelect()
+	{
+		System.out.println("Do you want to play against another player or against the CPU?");
+		System.out.print("Please enter either \"Player\" or \"CPU\": ");
+		Scanner opponent = new Scanner(System.in);
+		String choice = opponent.nextLine();
+		if(choice.equals("Player") || choice.equals("player"))
+		{
 
+		}
+		if(choice.equals("CPU") || choice.equals("cpu"))
+		{
+			setBoard();
+			printBoard();	
+			System.out.println("X is Player 1, O is CPU");
+			String winner = aiGame();			
+			System.out.println(winner + " won!");
+			askContinue();
+		}
+	}
   public static void printBoard()
   {
     for(int i = 0; i < 7; i++)
@@ -50,7 +87,6 @@ public class Java_Tic_Tac_Toe
 		}
 		System.out.println();
   }
-
   public static void playerMove()
   {
 		Scanner Coord = new Scanner(System.in);
@@ -84,7 +120,6 @@ public class Java_Tic_Tac_Toe
 		}
 		boardMove(xCoord, yCoord, "X");
 	}
-
 	public static void aiMove()
 	{
 		Random randCoord = new Random();
@@ -100,7 +135,6 @@ public class Java_Tic_Tac_Toe
 		}
 		boardMove(xCoord, yCoord, "O");		
 	}
-	
   public static void boardMove(int X, int Y, String player)
   {
     gameboard[Y][X] = player;
@@ -119,7 +153,7 @@ public class Java_Tic_Tac_Toe
 			if(win == true)
 			{
 				printBoard();
-				whoWon = "player";
+				whoWon = "Player 1";
 				return whoWon;
 			}			
 			moves = canMove();
@@ -137,10 +171,9 @@ public class Java_Tic_Tac_Toe
 			}
 			printBoard();
 		}
-		whoWon = "nobody";
+		whoWon = "Nobody";
 		return whoWon;
 	}
-
 	public static boolean canMove()
 	{
 		for(int i = 0; i < gameboard.length; i++)
@@ -153,7 +186,6 @@ public class Java_Tic_Tac_Toe
 		}
 		return false;
 	}
-
 	public static boolean isEmpty(int X, int Y)
 	{
 		if(gameboard[Y][X].equals(" "))
