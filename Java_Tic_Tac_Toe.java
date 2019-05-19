@@ -52,7 +52,12 @@ public class Java_Tic_Tac_Toe
 		String choice = opponent.nextLine();
 		if(choice.equals("Player") || choice.equals("player"))
 		{
-
+			setBoard();
+			printBoard();	
+			System.out.println("X is Player 1, O is Player 2");
+			String winner = playerGame();			
+			System.out.println(winner + " won!");
+			askContinue();
 		}
 		if(choice.equals("CPU") || choice.equals("cpu"))
 		{
@@ -87,7 +92,7 @@ public class Java_Tic_Tac_Toe
 		}
 		System.out.println();
   }
-  public static void playerMove()
+  public static void playerOneMove()
   {
 		Scanner Coord = new Scanner(System.in);
 		boolean confirm = false;
@@ -97,21 +102,21 @@ public class Java_Tic_Tac_Toe
 
 		while(confirm == false)
 		{
-			System.out.print("What X coordinate (between 0 and 2) do you want to move to? ");
+			System.out.print("Player One: What X coordinate (between 0 and 2) do you want to move to? ");
 			xCoord = Coord.nextInt();
 			while(xCoord > 2)
 			{
 				System.out.println("  Please enter a value between 0 and 2");
-				System.out.print("What X coordinate (between 0 and 2) do you want to move to? ");
+				System.out.print("Player One: What X coordinate (between 0 and 2) do you want to move to? ");
 				xCoord = Coord.nextInt();
 			}
 
-    	System.out.print("What Y coordinate (between 0 and 2) do you want to move to? ");
+    	System.out.print("Player One: What Y coordinate (between 0 and 2) do you want to move to? ");
 			yCoord = Coord.nextInt();
 			while(yCoord > 2)
 			{
 				System.out.println("  Please enter a value between 0 and 2");
-				System.out.print("What Y coordinate (between 0 and 2) do you want to move to? ");
+				System.out.print("Player One: What Y coordinate (between 0 and 2) do you want to move to? ");
 				yCoord = Coord.nextInt();
 			}
 			confirm = isEmpty(xCoord, yCoord);
@@ -119,6 +124,39 @@ public class Java_Tic_Tac_Toe
 				System.out.println("  Please enter in coordinates that are not taken");
 		}
 		boardMove(xCoord, yCoord, "X");
+	}
+	public static void playerTwoMove()
+  {
+		Scanner Coord = new Scanner(System.in);
+		boolean confirm = false;
+
+		int xCoord = 0;
+		int yCoord = 0;
+
+		while(confirm == false)
+		{
+			System.out.print("Player Two: What X coordinate (between 0 and 2) do you want to move to? ");
+			xCoord = Coord.nextInt();
+			while(xCoord > 2)
+			{
+				System.out.println("  Please enter a value between 0 and 2");
+				System.out.print("Player Two: What X coordinate (between 0 and 2) do you want to move to? ");
+				xCoord = Coord.nextInt();
+			}
+
+    	System.out.print("Player Two: What Y coordinate (between 0 and 2) do you want to move to? ");
+			yCoord = Coord.nextInt();
+			while(yCoord > 2)
+			{
+				System.out.println("  Please enter a value between 0 and 2");
+				System.out.print("Player Two: What Y coordinate (between 0 and 2) do you want to move to? ");
+				yCoord = Coord.nextInt();
+			}
+			confirm = isEmpty(xCoord, yCoord);
+			if(confirm == false)
+				System.out.println("  Please enter in coordinates that are not taken");
+		}
+		boardMove(xCoord, yCoord, "O");
 	}
 	public static void aiMove()
 	{
@@ -139,7 +177,6 @@ public class Java_Tic_Tac_Toe
   {
     gameboard[Y][X] = player;
   }
-
 	public static String aiGame()
 	{
 		boolean win = false;
@@ -148,7 +185,7 @@ public class Java_Tic_Tac_Toe
 
 		while( win == false && moves == true )
 		{
-			playerMove();
+			playerOneMove();
 			win = ifWon("X");
 			if(win == true)
 			{
@@ -165,6 +202,41 @@ public class Java_Tic_Tac_Toe
 				{
 					printBoard();
 					whoWon = "CPU";
+					return whoWon;
+				}	
+				moves = canMove();
+			}
+			printBoard();
+		}
+		whoWon = "Nobody";
+		return whoWon;
+	}
+	public static String playerGame()
+	{
+		boolean win = false;
+		boolean moves = true;
+		String whoWon = "";
+
+		while( win == false && moves == true )
+		{
+			playerOneMove();
+			win = ifWon("X");
+			if(win == true)
+			{
+				printBoard();
+				whoWon = "Player 1";
+				return whoWon;
+			}			
+			moves = canMove();
+			if( win == false && moves == true )
+			{
+				printBoard();
+				playerTwoMove();
+				win = ifWon("O");
+				if(win == true)
+				{
+					printBoard();
+					whoWon = "Player 2";
 					return whoWon;
 				}	
 				moves = canMove();
